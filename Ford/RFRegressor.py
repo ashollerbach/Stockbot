@@ -39,6 +39,10 @@ plt.title('Actual vs. Predicted Values')
 plt.legend()
 plt.show()
 
+# Generate future dates for plotting
+future_dates = pd.date_range(start=data['Date'].iloc[0], periods=5, freq='D')
+
+rf_regressor.fit(X, future_dates)
 #predict future values
 future_vals = rf_regressor.predict(X)
 future_vals_range = 200
@@ -49,8 +53,6 @@ future_vals_series = pd.Series(future_vals)
 # Calculate percent change
 future_percent_change = future_vals_series.pct_change() * 100
 
-# Generate future dates for plotting
-future_dates = pd.date_range(start=data['Date'].iloc[0], periods=5, freq='D')
 
 # Filter out NaN and Inf values
 future_percent_change_filtered = future_percent_change[~future_percent_change.isnull() & ~future_percent_change.isin([np.inf, -np.inf])]
