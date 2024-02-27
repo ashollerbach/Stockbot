@@ -41,7 +41,7 @@ plt.show()
 
 #predict future values
 future_vals = rf_regressor.predict(X)
-future_vals_range = 5
+future_vals_range = 200
 
  #Convert future_vals to a pandas Series
 future_vals_series = pd.Series(future_vals)
