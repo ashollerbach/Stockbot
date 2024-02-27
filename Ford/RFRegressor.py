@@ -40,9 +40,8 @@ plt.legend()
 plt.show()
 
 # Generate future dates for plotting
-future_dates = pd.date_range(start=data['Date'].iloc[0], periods=5, freq='D')
+future_dates = pd.date_range(start=data['Date'].iloc[0], periods=len(X), freq='D')
 
-rf_regressor.fit(X, future_dates)
 #predict future values
 future_vals = rf_regressor.predict(X)
 future_vals_range = 200
@@ -57,10 +56,7 @@ future_percent_change = future_vals_series.pct_change() * 100
 # Filter out NaN and Inf values
 future_percent_change_filtered = future_percent_change[~future_percent_change.isnull() & ~future_percent_change.isin([np.inf, -np.inf])]
 
-# Generate future dates for plotting
-future_dates = pd.date_range(start=data['Date'].iloc[0], periods=len(future_percent_change_filtered), freq='D')
-
-percent = True # show percent, set false for actual values
+percent = False # show percent, set false for actual values
 if(percent):
   # Plot predicted future values
   plt.figure(figsize=(8, 6))
@@ -75,7 +71,7 @@ if(percent):
   plt.ylim(-data_range, data_range)  # Set y-axis limits symmetrically around 0
   plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
   plt.show()
-elif(~percent):
+elif(percent == False):
   # Plot predicted future values
   plt.figure(figsize=(8, 6))
   plt.plot(future_dates[:future_vals_range], future_vals[:future_vals_range], color='blue', label='Predicted Percent Change')
