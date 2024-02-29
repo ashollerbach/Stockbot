@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import numpy as np
+from datetime import datetime, timedelta
 
 # Load the data from the CSV file
 data = pd.read_csv('Ford\Ford_Data.csv')
@@ -39,12 +40,25 @@ plt.title('Actual vs. Predicted Values')
 plt.legend()
 plt.show()
 
-# Generate future dates for plotting
-future_dates = pd.date_range(start=data['Date'].iloc[0], periods=len(X), freq='D')
-
 #predict future values
 future_vals = rf_regressor.predict(X)
 future_vals_range = 200
+
+# Generate future dates for plotting
+def generate_dates(start_date, end_date):
+    dates = []
+    current_date = start_date
+    while current_date <= end_date:
+        if current_date.weekday() < 5:  # Monday to Friday (0 to 4)
+            dates.append(current_date)
+        current_date += timedelta(days=1)
+    return dates
+
+date_holder =  data.iloc[0,0] #string holder to be converted to an int
+start_date = datetime.strptime(date_holder, "%m/%d/%Y")
+end_date = start_date + timedelta(days=future_vals_range)   # End date
+future_dates = generate_dates(start_date, end_date)
+ 
 
  #Convert future_vals to a pandas Series
 future_vals_series = pd.Series(future_vals)
@@ -74,7 +88,7 @@ if(percent):
 elif(percent == False):
   # Plot predicted future values
   plt.figure(figsize=(8, 6))
-  plt.plot(future_dates[:future_vals_range], future_vals[:future_vals_range], color='blue', label='Predicted Percent Change')
+  plt.plot(future_dates, future_vals[:len(future_dates)], color='blue', label='Predicted Percent Change')
   plt.grid(True)
   plt.xlabel('Date')
   plt.ylabel('Stock Price')
