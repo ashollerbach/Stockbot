@@ -4,7 +4,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import numpy as np
-from datetime import datetime, timedelta
 
 # Load the data from the CSV file
 data = pd.read_csv('PBF\PBF_Data.csv')

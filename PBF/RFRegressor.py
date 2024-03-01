@@ -63,6 +63,9 @@ future_dates = generate_dates(start_date, end_date)
  #Convert future_vals to a pandas Series
 future_vals_series = pd.Series(future_vals)
 
+predictions = pd.DataFrame({'Date': future_dates, 'Predicted Close': future_vals_series[:len(future_dates)]})
+predictions.to_csv('PBF\PBF_Predictions.csv')
+
 # Calculate percent change
 future_percent_change = future_vals_series.pct_change() * 100
 
