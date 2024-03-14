@@ -14,7 +14,7 @@ X = data.drop(columns=['Date', 'Volume', 'Open', 'High', 'Low'])
 y = data['Close']
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=15)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=15)
 
 # Initialize the Random Forest classifier
 rf_regressor = RandomForestRegressor(n_estimators=100, random_state=15)
